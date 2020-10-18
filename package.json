@@ -1,7 +1,7 @@
 {
-  "name": "unit10hw",
-  "version": "1.0.0",
-  "description": "OOP and testing for week 10 homework",
+  "name": "programming-team-generator",
+  "version": "0.1.0",
+  "description": "",
   "main": "app.js",
   "directories": {
     "lib": "lib",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stevetrilogy/unit10hw.git"
+    "url": "git+https://github.com/periodicaidan/programming-team-generatort"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stevetrilogy/unit10hw/issues"
+    "url": "https://github.com/periodicaidan/programming-team-generator/issues"
   },
-  "homepage": "https://github.com/stevetrilogy/unit10hw#readme",
+  "homepage": "https://github.com/periodicaidan/programming-team-generator#readme",
   "dependencies": {
     "inquirer": "^6.3.1"
   },
