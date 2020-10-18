@@ -1,1 +1,6 @@
 .assets
+.DS_store
+.vscode
+package-lock.json
+node_modules
+.npm
