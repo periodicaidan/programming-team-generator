@@ -4,9 +4,13 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require('util');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
+
+const writeFileAsync = util.promisify(fs.writeFile);
+const mkdirAsync = util.promisify(fs.mkdir);
 
 const render = require("./lib/htmlRenderer");
 
@@ -33,7 +37,7 @@ const main = async argv => {
             type: 'list',
             name: 'role',
             message: 'Select team member role:',
-            options: ['Engineer', 'Intern', 'Manager'],
+            choices: ['Engineer', 'Intern', 'Manager'],
         });
 
         const employee = await (async function() {
@@ -53,7 +57,7 @@ const main = async argv => {
 
         employees.push(employee);
 
-        const { promptForMore } = inquirer.prompt({
+        const { promptForMore } = await inquirer.prompt({
             type: 'confirm',
             name: 'promptForMore',
             message: 'Add another employee?'
@@ -71,46 +75,48 @@ const main = async argv => {
     // Hint: you may need to check if the `output` folder exists and create it if it
     // does not.
 
-    // HINT: each employee type (manager, engineer, or intern) has slightly different
-    // information; write your code to ask different questions via inquirer depending on
-    // employee type.
-
-    // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-    // and Intern classes should all extend from a class named Employee; see the directions
-    // for further information. Be sure to test out each class and verify it generates an
-    // object with the correct structure and methods. This structure will be crucial in order
-    // for the provided `render` function to work! ```
-
+    try {
+        await writeFileAsync(outputPath, teamHtml);
+    } catch (err) {
+        await mkdirAsync(OUTPUT_DIR);
+        await writeFileAsync(outputPath, teamHtml);
+    }
 }
 
 async function promptManager() {
-    return await inquirer.prompt([
+    const { name, id, email, officeNumber } =  await inquirer.prompt([
         ...employeeQuestions,
         {
             name: 'officeNumber',
             message: 'Manager office number:',
         }
     ]);
+
+    return new Manager(name, id, email, officeNumber);
 }
 
 async function promptEngineer() {
-    return await inquirer.prompt([
+    const { name, id, email, github } = await inquirer.prompt([
         ...employeeQuestions,
         {
             name: 'github',
             message: 'GitHub username:'
         }
     ]);
+
+    return new Engineer(name, id, email, github);
 }
 
 async function promptIntern() {
-    return await inquirer.prompt([
+    const { name, id, email, school } = await inquirer.prompt([
         ...employeeQuestions,
         {
             name: 'school',
             message: 'Intern school:'
         }
     ]);
+
+    return new Intern(name, id, email, school);
 }
 
 main();
