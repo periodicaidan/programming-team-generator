@@ -1,6 +1,17 @@
+# Stuff from this project
 .assets
+
+# OpenShot stuff (for video editing)
+*.osp
+demos/demo_assets
+
+# Mac stuff
 .DS_store
+
+# VS Code stuff
 .vscode
+
+# NPM/Node.js stuff
 package-lock.json
 node_modules
 .npm
